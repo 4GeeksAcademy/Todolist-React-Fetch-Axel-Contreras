@@ -21,8 +21,13 @@ export async function getUserWithTodos() {
     });
 
     if (!response.ok) {
-        // Si no existe, lo creamos
-        return await createUser();
+        // Creamos el usuario
+        await createUser();
+
+        // Y luego lo pedimos de nuevo para obtener { username, todos: [] }
+        const newResponse = await fetch(`${BASE_URL}/users/Axel`);
+        const newData = await newResponse.json();
+        return newData;
     }
 
     const data = await response.json();
